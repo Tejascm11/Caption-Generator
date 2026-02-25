@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InstaCap AI — Instagram Caption Generator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- ── API Key Modal ── -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-icon">🔑</div>
+      <h2 class="modal-title">Enter your <span class="grad">free</span> API Key</h2>
+      <p class="modal-sub">
+        Get a free key (no credit card) at<br />
+        <a href="https://console.groq.com" target="_blank">console.groq.com</a>
+        → API Keys → Create API Key
+      </p>
+
+      <div class="modal-steps">
+        <div class="step"><span class="step-n">1</span> Go to <strong>console.groq.com</strong></div>
+        <div class="step"><span class="step-n">2</span> Sign up free with Google / GitHub</div>
+        <div class="step"><span class="step-n">3</span> Click <strong>API Keys → Create API Key</strong></div>
+        <div class="step"><span class="step-n">4</span> Paste the key below (starts with <code>gsk_</code>)</div>
+      </div>
+
+      <div class="modal-input-wrap">
+        <input type="text" id="apiKeyInput" class="modal-input" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx"
+          autocomplete="off" spellcheck="false" />
+      </div>
+
+      <div class="modal-error" id="modalError"></div>
+
+      <button class="modal-btn" id="saveKeyBtn">Save & Continue →</button>
+    </div>
+  </div>
+
+  <!-- ── Background ── -->
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora-mid"></div>
+  </div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <div class="page">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="ig-badge">
+        <div class="ig-icon">📸</div>
+        AI Caption Studio
+      </div>
+      <h1 class="headline">
+        <span class="line1">Captions that</span>
+        <span class="line2">stop the scroll.</span>
+      </h1>
+      <p class="subhead">Drop any photo. Pick a vibe. Get captions that actually sound like you.</p>
+    </header>
+
+    <!-- Change key button -->
+    <button class="change-key-btn" id="changeKeyBtn" title="Change API Key">🔑 Change API Key</button>
+
+    <!-- Main two-column -->
+    <main class="main-wrap">
+
+      <!-- Left: Upload -->
+      <section class="panel">
+        <div class="panel-label">Your Photo</div>
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-glow"></div>
+          <div class="upload-ring">🖼️</div>
+          <div class="upload-title">Drop your photo here</div>
+          <div class="upload-sub">or click to browse</div>
+          <div class="type-badges">
+            <span class="tbadge">JPG</span><span class="tbadge">PNG</span>
+            <span class="tbadge">WEBP</span><span class="tbadge">GIF</span>
+          </div>
+          <input type="file" id="fileInput" accept="image/*" aria-label="Upload photo" />
+        </div>
+      </section>
+
+      <!-- Right: Options -->
+      <section class="panel right-panel">
+        <div class="panel-label">Caption Vibe</div>
+        <div class="tone-grid" id="toneGrid">
+          <button class="tone-btn on" data-tone="Witty"> <span class="tone-emoji">😏</span>Witty</button>
+          <button class="tone-btn" data-tone="Poetic"> <span class="tone-emoji">🌹</span>Poetic</button>
+          <button class="tone-btn" data-tone="Minimalist"> <span class="tone-emoji">🤍</span>Minimalist</button>
+          <button class="tone-btn" data-tone="Playful"> <span class="tone-emoji">🎉</span>Playful</button>
+          <button class="tone-btn" data-tone="Inspirational"><span class="tone-emoji">🔥</span>Inspirational</button>
+          <button class="tone-btn" data-tone="Sarcastic"> <span class="tone-emoji">🙄</span>Sarcastic</button>
+        </div>
+
+        <div class="panel-label">How many captions?</div>
+        <div class="count-row" id="countRow">
+          <button class="count-btn" data-count="1">1</button>
+          <button class="count-btn" data-count="2">2</button>
+          <button class="count-btn on" data-count="3">3</button>
+        </div>
+
+        <button class="gen-btn" id="generateBtn" disabled>✨ Generate Captions</button>
+      </section>
+    </main>
+
+    <!-- Results -->
+    <section class="results-wrap" id="resultsWrap" style="display:none">
+      <div class="panel" id="loadingPanel" style="display:none">
+        <div class="load-box">
+          <div class="loader"></div>
+          <div class="load-text">Analyzing your photo<span class="dots"></span></div>
+        </div>
+      </div>
+      <div class="err" id="errorBox" style="display:none"></div>
+      <div class="captions-grid" id="captionsGrid"></div>
+      <div class="hash-panel" id="hashPanel" style="display:none">
+        <div class="hash-title">✦ Hashtags — click any to copy</div>
+        <div class="hash-chips" id="hashChips"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
